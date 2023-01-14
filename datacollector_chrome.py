@@ -5,9 +5,9 @@ import minify_html
 from bs4 import BeautifulSoup
 import lxml
 import lxml.html.clean as clean
-import json
 import pandas as pd
 from time import sleep
+driver = webdriver.Chrome()
 def login(inp_uid):
     driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
     uid = driver.find_element(By.ID, "txtUser")
@@ -28,26 +28,36 @@ def clean_attrib(html_str):
 def logout():
     btn = driver.find_element(By.ID, "LinkButton2")
     btn.click()
+# user_id = 3000_350_000
+for user_id in range(3000350000,3000400000): # UID range
+    print(user_id)
+    login(user_id)
+    table_sel(2,1)
+    name_raw = driver.find_element(By.XPATH,"//*[@id='lblTenTaiKhoan']/span").get_attribute('outerHTML')
+    name = BeautifulSoup(name_raw, "lxml")
+    if name.string == "": name.string = "noname"
+    table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
 
-driver = webdriver.Chrome()
-login(3000377451)
-table_sel(3,2)
-table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
+    table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
+    table = BeautifulSoup(table_raw, "lxml")
 
-table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
-table = BeautifulSoup(table_raw, "lxml")
+    table_head = table.tr.extract()
+    table_head.name = "thead"
+    for elem in table_head.find_all("td"): elem.name = "th" # Replace all td with th
 
-table_head = table.tr.extract()
-table_head.name = "thead"
-for elem in table_head.find_all("td"): elem.name = "th" # Replace all td with th
+    table_body = table.tbody.extract()
+    table.table.append(table_head)
+    table.table.append(table_body)
 
-table_body = table.tbody.extract()
-table.table.append(table_head)
-table.table.append(table_body)
-
-df = pd.read_html(str(table))
-with open(f"./collected/3000377451.json", "w", encoding="utf-8") as file:
-    file.write(df[0].to_json(orient='records', force_ascii=False))
-    file.close()
-logout()
+    df = pd.read_html(str(table))
+    df_json = df[0].to_json(orient='records', force_ascii=False)
+    str_cond = df_json[0]["STT"]
+    if (str_cond == "Chưa cập nhật môn học"
+        or str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1" 
+        or str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"
+        or str_cond == ""):
+        with open(f"./collected/{str(user_id)}_{name.string}.json", "w", encoding="utf-8") as file:
+            file.write(df_json)
+            file.close()
+    logout()
 sleep(10)

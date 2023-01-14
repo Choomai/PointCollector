@@ -37,7 +37,7 @@ for i in num_range:
     sleep(2.5)
     pyui.moveTo(cord.name_st_x,cord.name_st_y)
     pyui.dragTo(cord.name_en_x,cord.name_en_y,1,button="left")
-    pyui.hotkey("ctrl","c",interval=0.1)
+    pyui.hotkey("ctrl","c",interval=0.2)
     # End name copy
     clipboard.OpenClipboard()
     clip_data = clipboard.GetClipboardData().replace(" ","")

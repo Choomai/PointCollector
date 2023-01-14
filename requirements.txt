@@ -2,3 +2,4 @@ minify-html
 selenium
 beautifulsoup4
 lxml
+colorama

@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
@@ -29,6 +31,10 @@ def logout():
 
 colorama.init()
 driver = webdriver.Chrome()
+chrome_options = Options()
+chrome_options.add_argument("--log-level=OFF")
+# chrome_options.add_argument("--headless") # Hide Chrome window, maybe it will got a little bit faster ?
+
 # user_id = 3000_350_000
 for user_id in range(3000_360_326,3000_400_000): # UID range
     login(user_id)

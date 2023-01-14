@@ -1,5 +1,5 @@
 minify-html
 selenium
-beautifulsoup4
+bs4
 lxml
 colorama

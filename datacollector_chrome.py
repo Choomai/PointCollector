@@ -33,7 +33,7 @@ colorama.init()
 driver = webdriver.Chrome()
 chrome_options = Options()
 chrome_options.add_argument("--log-level=OFF")
-# chrome_options.add_argument("--headless") # Hide Chrome window, maybe it will got a little bit faster ?
+chrome_options.add_argument("--headless") # Hide Chrome window, maybe it will got a little bit faster ?
 
 # user_id = 3000_350_000
 for user_id in range(3000_360_326,3000_400_000): # UID range

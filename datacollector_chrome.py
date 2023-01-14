@@ -50,13 +50,13 @@ for user_id in range(3000_360_326,3000_400_000): # UID range
     name = BeautifulSoup(name_raw, "lxml").string
 
     if (str_cond == "Chưa cập nhật môn học") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"):
-        print(f"{Fore.LIGHTRED_EX}Skipped UID {user_id} with the name {name}{Fore.WHITE}.")
+        print(f"{Fore.LIGHTRED_EX}Skipped UID {user_id} with the name {name}.{Fore.WHITE}")
     else:
         with open(f"./collected/{str(user_id)}_{name}.json", "w", encoding="utf-8") as file:
             df = pd.read_html(str(table))
             df_json = df[0].to_json(orient='records', force_ascii=False, indent=4)
             file.write(df_json)
             file.close()
-            print(f"{Fore.LIGHTGREEN_EX}Finished writing UID {user_id} with the name {name}.")
+            print(f"{Fore.LIGHTGREEN_EX}Finished writing UID {user_id} with the name {name}.{Fore.WHITE}")
     logout()
 sleep(10)

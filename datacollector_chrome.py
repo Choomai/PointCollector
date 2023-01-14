@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import lxml
 import lxml.html.clean as clean
 import json
+import pandas as pd
 from time import sleep
 def login(inp_uid):
     driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
@@ -24,13 +25,16 @@ def clean_attrib(html_str):
     # Ignore common attrib maybe ? https://stackoverflow.com/questions/7470333/remove-certain-attributes-from-html-tags
     cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=frozenset({'colspan'}))
     return cleaner.clean_html(html_str)
+def logout():
+    btn = driver.find_element(By.ID, "LinkButton2")
+    btn.click()
+
 driver = webdriver.Chrome()
 login(3000377451)
 table_sel(3,2)
-# Semester 1
 table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
-table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
 
+table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
 table = BeautifulSoup(table_raw, "lxml")
 
 table_head = table.tr.extract()
@@ -40,6 +44,10 @@ for elem in table_head.find_all("td"): elem.name = "th" # Replace all td with th
 table_body = table.tbody.extract()
 table.table.append(table_head)
 table.table.append(table_body)
-print(table_head)
 
+df = pd.read_html(str(table))
+with open(f"./collected/3000377451.json", "w", encoding="utf-8") as file:
+    file.write(df[0].to_json(orient='records', force_ascii=False))
+    file.close()
+logout()
 sleep(10)

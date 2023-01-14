@@ -1,8 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import minify_html
 from bs4 import BeautifulSoup
+import minify_html
 import lxml
 import lxml.html.clean as clean
 import pandas as pd
@@ -30,11 +30,10 @@ def logout():
     btn.click()
 # user_id = 3000_350_000
 for user_id in range(3000350000,3000400000): # UID range
-    print(user_id)
     login(user_id)
     table_sel(2,1)
     name_raw = driver.find_element(By.XPATH,"//*[@id='lblTenTaiKhoan']/span").get_attribute('outerHTML')
-    name = BeautifulSoup(name_raw, "lxml")
+    name = BeautifulSoup(name_raw, "lxml").string
     if name.string == "": name.string = "noname"
     table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
 
@@ -48,16 +47,17 @@ for user_id in range(3000350000,3000400000): # UID range
     table_body = table.tbody.extract()
     table.table.append(table_head)
     table.table.append(table_body)
-
+    str_cond = table_body.td.string
+    
     df = pd.read_html(str(table))
-    df_json = df[0].to_json(orient='records', force_ascii=False)
-    str_cond = df_json[0]["STT"]
-    if (str_cond == "Chưa cập nhật môn học"
-        or str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1" 
-        or str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"
-        or str_cond == ""):
-        with open(f"./collected/{str(user_id)}_{name.string}.json", "w", encoding="utf-8") as file:
+    df_json = df[0].to_json(orient='records', force_ascii=False, indent=4)
+    
+    if (str_cond == "Chưa cập nhật môn học") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"):
+        print(f"UID {user_id} with the name {name} has been skipped.")
+    else: 
+        with open(f"./collected/{str(user_id)}_{name}.json", "w", encoding="utf-8") as file:
             file.write(df_json)
             file.close()
+            print(f"Finished writing UID {user_id} with the name {name}.")
     logout()
 sleep(10)

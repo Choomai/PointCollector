@@ -6,7 +6,10 @@ import minify_html
 import lxml
 import lxml.html.clean as clean
 import pandas as pd
+import colorama
+from colorama import Fore
 from time import sleep
+colorama.init()
 driver = webdriver.Chrome()
 def login(inp_uid):
     driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
@@ -34,7 +37,7 @@ for user_id in range(3000350000,3000400000): # UID range
     table_sel(2,1)
     name_raw = driver.find_element(By.XPATH,"//*[@id='lblTenTaiKhoan']/span").get_attribute('outerHTML')
     name = BeautifulSoup(name_raw, "lxml").string
-    if name.string == "": name.string = "noname"
+    if name == "": name = "noname"
     table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
 
     table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
@@ -48,16 +51,15 @@ for user_id in range(3000350000,3000400000): # UID range
     table.table.append(table_head)
     table.table.append(table_body)
     str_cond = table_body.td.string
-    
+
     df = pd.read_html(str(table))
     df_json = df[0].to_json(orient='records', force_ascii=False, indent=4)
-    
     if (str_cond == "Chưa cập nhật môn học") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"):
-        print(f"UID {user_id} with the name {name} has been skipped.")
+        print(f"{Fore.LIGHTRED_EX}Skipped UID {user_id} with the name {name}{Fore.WHITE}.")
     else: 
         with open(f"./collected/{str(user_id)}_{name}.json", "w", encoding="utf-8") as file:
             file.write(df_json)
             file.close()
-            print(f"Finished writing UID {user_id} with the name {name}.")
+            print(f"{Fore.LIGHTGREEN_EX}Finished writing UID {user_id} with the name {name}.")
     logout()
 sleep(10)

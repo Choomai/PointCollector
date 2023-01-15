@@ -6,11 +6,15 @@ First, **install** dependencies by running `pip install -r requirements.txt`
 Choose one of those methods:
 
 ## chrome **(most stable)**
+> [Arguments References](https://peter.sh/experiments/chromium-command-line-switches/)
+
 Find the *variable or function* marked with the comment **[CONFIG]** and modify it to meet your requirements.
 
 To save time, the UID range should be set from 3000350000 to 3000399999.
 
 **DO NOT** use `add_argument("--headless")`, otherwise it won't able to interact with Chrome.
+
+
 
 ## fetch **(idk, help)**
 > No docs.

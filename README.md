@@ -1,5 +1,10 @@
 # Point Collector
 Fetch students point report at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.thuathienhue.edu.vn/).
+
+First, **install** dependencies by running `pip install -r requirements.txt`
+
+Choose one of those methods:
+
 ## chrome **(most stable)**
 > Find the *variable or function* marked with the comment **[CONFIG]** and modify it to meet your requirements.
 >

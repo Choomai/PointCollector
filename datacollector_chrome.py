@@ -16,29 +16,26 @@ def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")
     uid.send_keys(inp_uid)
     passwd = driver.find_element(By.ID, "txtPass")
-    passwd.send_keys("cc") # Anything will work...
+    passwd.send_keys("cc") # [CONFIG] Anything will work...
     login_btn = driver.find_element(By.ID, "btnDangNhap")
     login_btn.send_keys(Keys.ENTER)
-def table_sel(num, semester): # (1..10, 1 or 2) | 1st is current year, 2nd is the next,... ; Semester 1 or 2
+def table_sel(num, semester): # (1..10, 1 or 2) | 1st is current year, 2nd is the previous,... ; Semester 1 or 2
     driver.find_element(By.XPATH, f"//select[@id='ctl05_drpNamHoc']/option[{str(num)}]").click() # 2021-2022 (if first option = 2022-2023)
     driver.find_element(By.XPATH, f"//select[@id='ctl05_drpHocKy']/option[{str(semester)}]").click()
 def clean_attrib(html_str):
     # Ignore common attrib maybe ? https://stackoverflow.com/questions/7470333/remove-certain-attributes-from-html-tags
     cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=frozenset({'colspan'}))
     return cleaner.clean_html(html_str)
-def logout():
-    driver.find_element(By.ID, "LinkButton2").click()
-
+def logout(): driver.find_element(By.ID, "LinkButton2").click()
 colorama.init()
 driver = webdriver.Chrome()
 chrome_options = Options()
-chrome_options.add_argument("--log-level=OFF")
-# chrome_options.add_argument("--headless") # Hide Chrome window, maybe it will got a little bit faster ?
+chrome_options.add_argument("--log-level=3") # [CONFIG] Log levels. https://stackoverflow.com/questions/62137334/disable-console-output-of-webdriver-using-selenium-in-python
+# chrome_options.add_argument("--headless") # [CONFIG] Hide Chrome window, maybe it will got a little bit faster ?
 
-# user_id = 3000_350_000
-for user_id in range(3000_361_472,3000_400_000): # UID range
+for user_id in range(3000_361_472,3000_400_000): # [CONFIG] UID range
     login(user_id)
-    table_sel(2,1)
+    table_sel(2,1) # [CONFIG] Year ?, Semester 1/2 
     table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
     table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
     table = BeautifulSoup(table_raw, "lxml")

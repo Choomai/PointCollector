@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
@@ -27,15 +26,18 @@ def clean_attrib(html_str):
     return cleaner.clean_html(html_str)
 def logout(): driver.find_element(By.ID, "LinkButton2").click()
 colorama.init()
-driver = webdriver.Chrome()
-driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
-chrome_options = Options()
-chrome_options.add_argument("--log-level=3") # [CONFIG] Log levels. https://stackoverflow.com/questions/62137334/disable-console-output-of-webdriver-using-selenium-in-python
-# chrome_options.add_argument("--headless") # [CONFIG] Hide Chrome window, maybe it will got a little bit faster ?
 
-for user_id in range(3000_390_000,3000_400_000): # [CONFIG] UID range
+chrome_options = Options()
+chrome_options.add_argument("--disable-logging")
+chrome_options.add_argument("--log-level=3") # [CONFIG] Log levels. https://stackoverflow.com/questions/62137334/disable-console-output-of-webdriver-using-selenium-in-python
+chrome_options.add_argument("--disable-extension")
+chrome_options.add_argument("--disable-in-process-stack-traces")
+driver = webdriver.Chrome(options=chrome_options)
+driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
+
+for user_id in range(3000_387_654,3000_400_000): # [CONFIG] UID range
     login(user_id)
-    table_sel(2,1) # [CONFIG] Year ?, Semester 1/2 
+    table_sel(2,1) # [CONFIG] Year ?, Semester ?/2 
     table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
     table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
     table = BeautifulSoup(table_raw, "lxml")

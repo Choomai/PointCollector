@@ -10,7 +10,7 @@ Find the *variable or function* marked with the comment **[CONFIG]** and modify 
 
 To save time, the UID range should be set from 3000350000 to 3000399999.
 
-Uncomment `chrome_options.add_argument("--headless")` if you don't need to see what the script is doing.
+**DO NOT** use `add_argument("--headless")`, otherwise it won't able to interact with Chrome.
 
 ## fetch **(idk, help)**
 > No docs.

@@ -12,7 +12,6 @@ import colorama
 from colorama import Fore
 from time import sleep
 def login(inp_uid):
-    driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
     uid = driver.find_element(By.ID, "txtUser")
     uid.send_keys(inp_uid)
     passwd = driver.find_element(By.ID, "txtPass")
@@ -29,11 +28,12 @@ def clean_attrib(html_str):
 def logout(): driver.find_element(By.ID, "LinkButton2").click()
 colorama.init()
 driver = webdriver.Chrome()
+driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
 chrome_options = Options()
 chrome_options.add_argument("--log-level=3") # [CONFIG] Log levels. https://stackoverflow.com/questions/62137334/disable-console-output-of-webdriver-using-selenium-in-python
 # chrome_options.add_argument("--headless") # [CONFIG] Hide Chrome window, maybe it will got a little bit faster ?
 
-for user_id in range(3000_361_472,3000_400_000): # [CONFIG] UID range
+for user_id in range(3000_390_000,3000_400_000): # [CONFIG] UID range
     login(user_id)
     table_sel(2,1) # [CONFIG] Year ?, Semester 1/2 
     table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")

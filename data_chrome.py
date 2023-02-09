@@ -1,3 +1,4 @@
+from dotenv import dotenv_values
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
@@ -10,6 +11,10 @@ import pandas as pd
 import colorama
 from colorama import Fore
 from time import sleep
+
+config = dotenv_values(".env")
+for index in config: config[index] = int(config[index])
+
 def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")
     uid.send_keys(inp_uid)
@@ -28,16 +33,17 @@ colorama.init()
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-logging")
-chrome_options.add_argument("--log-level=3") # [CONFIG] Log levels. https://stackoverflow.com/questions/62137334/disable-console-output-of-webdriver-using-selenium-in-python
+chrome_options.add_argument("--log-level=3") 
 chrome_options.add_argument("--disable-extension")
 chrome_options.add_argument("--disable-in-process-stack-traces")
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
+file_name = open("./collected/UIDs and names.txt", "a", encoding="utf-8", buffering=8)
 
-for user_id in range(3000_350_000, 3000_400_000): # [CONFIG] UID range
+for user_id in range(config["start_UIDs"], config["end_UIDs"]):
     # 1. Login and fetch table.
     login(user_id)
-    table_sel(1,1) # [CONFIG] Year ?, Semester 1 or 2
+    table_sel(config["year"], config["semester"])
     table = driver.find_element(By.XPATH, "//span[@id='ctl05_lblDanhSach']/table")
     table_raw = clean_attrib(minify_html.minify(table.get_attribute('outerHTML'), keep_closing_tags=True))
     table = BeautifulSoup(table_raw, "lxml")
@@ -58,6 +64,9 @@ for user_id in range(3000_350_000, 3000_400_000): # [CONFIG] UID range
     name = BeautifulSoup(name_raw, "lxml").string
 
     # 5. If table is valid, write it to /collected/{UID}_{Name}.json, else skip.
+    
+    if name is not None: file_name.write(str(user_id) + " - " + name + "\n")
+    else: file_name.write(str(user_id) + " - null\n")
     if (str_cond == "Chưa cập nhật môn học") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"):
         print(f"{Fore.LIGHTRED_EX}Skipped UID {user_id} with the name {name}.{Fore.WHITE}")
     else:
@@ -68,4 +77,5 @@ for user_id in range(3000_350_000, 3000_400_000): # [CONFIG] UID range
             file.close()
             print(f"{Fore.LIGHTGREEN_EX}Finished writing UID {user_id} with the name {name}.{Fore.WHITE}")
     logout()
+file_name.close()
 sleep(10)

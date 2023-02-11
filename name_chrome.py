@@ -3,11 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
-import minify_html
-import lxml
-import lxml.html.clean as clean
-import pandas as pd
 import colorama
 from colorama import Fore
 from time import sleep
@@ -23,9 +18,6 @@ def login(inp_uid):
     passwd.send_keys("cc") # [CONFIG] Anything will work...
     login_btn = driver.find_element(By.ID, "btnDangNhap")
     login_btn.send_keys(Keys.ENTER)
-def clean_attrib(html_str):
-    cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=frozenset({'colspan'})) # Keep 'colspan' safe.
-    return cleaner.clean_html(html_str)
 def logout(): driver.find_element(By.ID, "LinkButton2").click()
 colorama.init()
 
@@ -40,8 +32,7 @@ file_name = open("./collected/UIDs and names.txt", "a", encoding="utf-8")
 
 for user_id in range(config["start_UIDs"], config["end_UIDs"]):
     login(user_id)
-    name_raw = driver.find_element(By.XPATH,"//span[@id='lblTenTaiKhoan']/span").get_attribute('outerHTML')
-    name = BeautifulSoup(name_raw, "lxml").string
+    name = driver.find_element(By.XPATH,"//span[@id='lblTenTaiKhoan']/span").get_attribute('innerHTML')
     
     if name is not None: 
         file_name.write(str(user_id) + " - " + name + "\n")

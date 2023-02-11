@@ -8,15 +8,19 @@ Choose one of those methods:
 ## chrome **(most stable)**
 > [Arguments References](https://peter.sh/experiments/chromium-command-line-switches/)
 
-Find the *variable or function* marked with the comment **[CONFIG]** and modify it to meet your requirements.
+Modify `.env` accordingly to meet your requirements.
 
-```python
-...
-table_sel(1,1) # [CONFIG] Year ?, Semester 1 or 2
-...
-for user_id in range(3000_350_000, 3000_400_000): # [CONFIG] UID range
-...
-```
+Explanation:
+> `start_UIDs` is basically it. Same goes for `end_UIDs`
+> 
+> `log_lvl` idk...
+> 
+> `year`: Start from 1 to ?, 
+> 
+> For example, this year is 2022, so if you want to get the latest result, set it to 1, last year is 2, last 2 year is 3, and so on.
+> `semester`: 1 or 2
+> 
+> `write_uid` explain itself.
 
 To save time, the UID range should be set from 3000350000 to 3000399999.
 

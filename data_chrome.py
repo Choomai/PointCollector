@@ -13,7 +13,10 @@ from colorama import Fore
 from time import sleep
 
 config = dotenv_values(".env")
-for index in config: config[index] = int(config[index])
+for index in config:
+    if not config[index] in ["true", "false"]: config[index] = int(config[index])
+    elif config[index] == "true": config[index] = True
+    elif config[index] == "false": config[index] = False
 
 def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")
@@ -38,7 +41,7 @@ chrome_options.add_argument("--disable-extension")
 chrome_options.add_argument("--disable-in-process-stack-traces")
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
-file_name = open("./collected/UIDs and names.txt", "a", encoding="utf-8", buffering=8)
+file_name = open("./collected/UIDs and names.txt", "a", encoding="utf-8")
 
 for user_id in range(config["start_UIDs"], config["end_UIDs"]):
     # 1. Login and fetch table.

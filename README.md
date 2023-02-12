@@ -18,6 +18,7 @@ Explanation:
 > `year`: Start from 1 to ?, 
 > 
 > For example, this year is 2022, so if you want to get the latest result, set it to 1, last year is 2, last 2 year is 3, and so on.
+> 
 > `semester`: 1 or 2
 > 
 > `write_uid` explain itself.
@@ -25,6 +26,10 @@ Explanation:
 To save time, the UID range should be set from 3000350000 to 3000399999.
 
 **DO NOT** use `add_argument("--headless")`, otherwise it won't able to interact with Chrome.
+
+Check for missing UIDs: `python name_chrome.py`. It will check for any UIDs missing in `/collected/UIDs and names.txt` and save them as an array string.
+
+You can modify the source code to read that array, or I will do it at the next update.
 
 
 

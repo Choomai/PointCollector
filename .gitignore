@@ -1,2 +1,3 @@
-/imgs/*
-/collected/*
+/collected/
+/.vscode/
+/build/

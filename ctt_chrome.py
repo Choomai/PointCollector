@@ -9,6 +9,7 @@ import lxml
 import lxml.html.clean as clean
 import pandas as pd
 import colorama
+import sys
 from colorama import Fore
 from time import sleep
 
@@ -32,8 +33,11 @@ def clean_attrib(html_str):
     cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=frozenset({'colspan'})) # Keep 'colspan' safe.
     return cleaner.clean_html(html_str)
 def logout(): driver.find_element(By.ID, "LinkButton2").click()
-colorama.init()
+def logger(success: bool, uid, name):
+    if success: print(f"{Fore.LIGHTGREEN_EX}Success | {uid} | {name}.{Fore.WHITE}")
+    else: print(f"{Fore.LIGHTRED_EX}Failed | {uid} | {name}.{Fore.WHITE}")
 
+colorama.init()
 chrome_options = Options()
 chrome_options.add_argument("--disable-logging")
 chrome_options.add_argument("--log-level=3") 
@@ -41,9 +45,9 @@ chrome_options.add_argument("--disable-extension")
 chrome_options.add_argument("--disable-in-process-stack-traces")
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
-file_name = open("./collected/UIDs and names.txt", "a", encoding="utf-8")
+file_name = open("./collected/ctt/UIDs and names.txt", "a", encoding="utf-8")
 
-for user_id in range(config["start_UIDs"], config["end_UIDs"]):
+for user_id in range(config["ctt_start_UID"], config["ctt_end_UID"]):
     # 1. Login and fetch table.
     login(user_id)
     table_sel(config["year"], config["semester"])
@@ -66,19 +70,21 @@ for user_id in range(config["start_UIDs"], config["end_UIDs"]):
     name_raw = driver.find_element(By.XPATH,"//span[@id='lblTenTaiKhoan']/span").get_attribute('outerHTML')
     name = BeautifulSoup(name_raw, "lxml").string
 
-    # 5. If table is valid, write it to /collected/{UID}_{Name}.json, else skip.
+    # 5. If table is valid, write it to /collected/ctt/{UID}_{Name}.json, else skip.
     
     if name is not None: file_name.write(str(user_id) + " - " + name + "\n")
     else: file_name.write(str(user_id) + " - null\n")
-    if (str_cond == "Chưa cập nhật môn học") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 1") or (str_cond == "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"):
-        print(f"{Fore.LIGHTRED_EX}Skipped UID {user_id} with the name {name}.{Fore.WHITE}")
-    else:
-        with open(f"./collected/{user_id}_{name}.json", "w", encoding="utf-8") as file:
-            df = pd.read_html(str(table))
-            df_json = df[0].to_json(orient='records', force_ascii=False, indent=4)
-            file.write(df_json)
-            file.close()
-            print(f"{Fore.LIGHTGREEN_EX}Finished writing UID {user_id} with the name {name}.{Fore.WHITE}")
+    if "--name-only" not in sys.argv:
+        if str_cond in ["Chưa cập nhật môn học", "Học sinh chưa được phép xem kết quả học tập Học kỳ 1", "Học sinh chưa được phép xem kết quả học tập Học kỳ 2"]:
+            logger(False, user_id, name)
+        else:
+            with open(f"./collected/ctt/{user_id}_{name}.json", "w", encoding="utf-8") as file:
+                df = pd.read_html(str(table))
+                df_json = df[0].to_json(orient='records', force_ascii=False, indent=4)
+                file.write(df_json)
+                file.close()
+                logger(True, user_id, name)
+    else: logger(True, user_id, name)
     logout()
 file_name.close()
 sleep(10)

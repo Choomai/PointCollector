@@ -23,7 +23,7 @@ def clean_attrib(html_str: str):
     return cleaner.clean_html(minify(html_str.replace("<td>:</td>", ""), keep_closing_tags=True))
 
 colorama.init()
-headers = {"User-Agent": f"python-requests/{requests.__version__} (compatible; PointCollector/1.2; +https://fallback.choomai.xyz/bots/collector.txt)"}
+headers = {"User-Agent": f"python-requests/{requests.__version__} (PointCollector/1.2; +https://fallback.choomai.xyz/bots/collector.txt)"}
 ts10_url = "http://khaothi.thuathienhue.edu.vn:8080/tracuu/chitietthcs.html"
 
 for id in range(config["ts10_start_ID"], config["ts10_end_ID"]):

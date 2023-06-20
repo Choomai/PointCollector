@@ -1,5 +1,5 @@
 # Point Collector
-Fetch students point report at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.thuathienhue.edu.vn/) and ~~[Tuyển sinh lớp 10](http://http://khaothi.thuathienhue.edu.vn:8080/)~~.
+Fetch students point report at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.thuathienhue.edu.vn/) and [Tuyển sinh lớp 10](http://http://khaothi.thuathienhue.edu.vn:8080/).
 
 First, **install** dependencies by running `pip install -r requirements.txt`
 

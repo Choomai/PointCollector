@@ -26,7 +26,7 @@ def clean_attrib(html_str: str):
     cleaner = Cleaner(safe_attrs_only=True, safe_attrs=frozenset({"class", "id"})) # Add the remove_empty_space parameter
     return cleaner.clean_html(minify(html_str.replace("<td>:</td>", ""), keep_closing_tags=True))
 
-for id in range(62809, 62819):
+for id in range(config["ts10_start_ID"], config["ts10_end_ID"]):
     req = requests.get(ts10_url, params={"id": id}, headers=headers)
     if req.status_code == 429:
         print("Got an 429, waiting for 1m server cooldown.")

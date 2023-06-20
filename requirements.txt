@@ -4,5 +4,5 @@ bs4
 lxml
 colorama
 pandas
-dotenv
+python-dotenv
 requests

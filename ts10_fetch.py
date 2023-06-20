@@ -32,7 +32,7 @@ headers = {"User-Agent": f"python-requests/{requests.__version__} (PointCollecto
 ts10_url = "http://khaothi.thuathienhue.edu.vn:8080/tracuu/chitietthcs.html"
 
 for id in range(config["ts10_start_ID"], config["ts10_end_ID"]):
-    req = make_request(ts10_url, params={"id": id}, timeout=60)
+    req = make_request(ts10_url, params={"id": id})
     html = BeautifulSoup(clean_attrib(req.text), "lxml")
 
     table = html.find(lambda tag: tag.name == "table" and "KẾT QUẢ THI" in tag.text).tr.td.div.table

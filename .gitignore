@@ -1,3 +1,4 @@
-/collected/
+/collected/*/*.*
+!/collected/*/empty
 /.vscode/
 /cpp/

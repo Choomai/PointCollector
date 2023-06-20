@@ -39,4 +39,6 @@ Explanation:
 
 # Disclaimer
 
-The PointCollector repo contains python scripts that fetch student point reports from websites. The author does not own or guarantee the data or the scripts. The use of these scripts is at your own risk. You should respect the websites and the laws when you crawl. The author is not liable for any damages or losses from these scripts.
+The PointCollector repo contains python scripts that fetch student point reports from websites. The author does not own or guarantee the data or the scripts.
+
+The use of these scripts is at your own risk. You should respect the websites and the laws when you crawl. The author is not liable for any damages or losses from these scripts.

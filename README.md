@@ -36,3 +36,7 @@ Modify `.env` accordingly to meet your requirements.
 
 Explanation:
 > `ts10_start_UIDs` is basically it. Same goes for `ts10_end_UIDs`
+
+# Disclaimer
+
+The PointCollector repo contains python scripts that fetch student point reports from websites. The author does not own or guarantee the data or the scripts. The use of these scripts is at your own risk. You should respect the websites and the laws when you crawl. The author is not liable for any damages or losses from these scripts.

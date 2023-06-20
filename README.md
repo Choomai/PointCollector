@@ -10,7 +10,7 @@ First, **install** dependencies by running `pip install -r requirements.txt`
 Modify `.env` accordingly to meet your requirements.
 
 Explanation:
-> `ctt_start_UIDs` is basically it. Same goes for `ctt_end_UIDs`
+> `ctt_start_UID` is basically it. Same goes for `ctt_end_UID`
 > 
 > `log_lvl` idk...
 > 
@@ -35,7 +35,7 @@ Check for missing UIDs: `python name_chrome.py`. It will check for any UIDs miss
 Modify `.env` accordingly to meet your requirements.
 
 Explanation:
-> `ts10_start_UIDs` is basically it. Same goes for `ts10_end_UIDs`
+> `ts10_start_ID` is basically it. Same goes for `ts10_end_ID`
 
 # Disclaimer
 

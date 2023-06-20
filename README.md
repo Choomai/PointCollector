@@ -1,17 +1,16 @@
 # Point Collector
-Fetch students point report at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.thuathienhue.edu.vn/) and [Tuyển sinh lớp 10](http://http://khaothi.thuathienhue.edu.vn:8080/).
 
 First, **install** dependencies by running `pip install -r requirements.txt`
 
-Choose one of those methods:
 
-## chrome **(most stable)**
-> [Arguments References](https://peter.sh/experiments/chromium-command-line-switches/)
+## **ctt_chrome**
+
+### Fetch at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.thuathienhue.edu.vn/)
 
 Modify `.env` accordingly to meet your requirements.
 
 Explanation:
-> `start_UIDs` is basically it. Same goes for `end_UIDs`
+> `ctt_start_UIDs` is basically it. Same goes for `ctt_end_UIDs`
 > 
 > `log_lvl` idk...
 > 
@@ -29,9 +28,11 @@ To save time, the UID range should be set from 3000350000 to 3000399999.
 
 Check for missing UIDs: `python name_chrome.py`. It will check for any UIDs missing in `collected/ctt/UIDs and names.txt` and save them as an array string in `collected/ctt/missing.txt`.
 
-You can modify the source code to read that array, or I will do it at the next update.
+## **ts10_fetch**
 
+### Fetch at [Tuyển sinh lớp 10](http://http://khaothi.thuathienhue.edu.vn:8080/)
 
+Modify `.env` accordingly to meet your requirements.
 
-## *img* **(abandoned, high error rate)**
-> Default settings is for Windows 10, Taskbar put on top, 1366x768 screen reslution.
+Explanation:
+> `ts10_start_UIDs` is basically it. Same goes for `ts10_end_UIDs`

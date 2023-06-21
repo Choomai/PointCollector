@@ -1,6 +1,6 @@
 minify-html
 selenium
-bs4
+beautifulsoup4
 lxml
 colorama
 pandas

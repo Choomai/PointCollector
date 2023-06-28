@@ -43,11 +43,17 @@ for id in range(config["ts10_start_ID"], config["ts10_end_ID"]):
     tr_list = table.find_all("tr")
     for tr in tr_list:
         td_list = tr.find_all("td")
-        data[td_list[0].text] = td_list[1].text
-    
+        key, val = td_list[0].text, td_list[1].text
+
+        if key == "Số báo danh":
+            data[key] = int(data[key])
+            continue
+        try: data[key] = float(data[key])
+        except ValueError: continue
+        data[key] = val
+
     if name:
         with open(f"./collected/ts10/{id}_{name}.json", "w", encoding="utf-8") as file:
             json.dump(data, file, ensure_ascii=False, indent=4) # Write the dictionary object to the JSON file
-            file.close()
             logger(True, id, name, req.status_code)
     else: logger(False, id, name, req.status_code)

@@ -2,6 +2,8 @@
 
 [Download the data](https://fallback.choomai.xyz/universal/PointCollector/) fetched by me or in the **Releases** tab
 
+#
+
 First, **install** dependencies by running `pip install -r requirements.txt`
 
 

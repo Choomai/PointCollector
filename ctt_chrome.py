@@ -15,9 +15,15 @@ from time import sleep
 
 config = dotenv_values(".env")
 for index in config:
-    if not config[index] in ["true", "false"]: config[index] = int(config[index])
-    elif config[index] == "true": config[index] = True
-    elif config[index] == "false": config[index] = False
+    try: 
+        config[index] = int(config[index])
+        continue
+    except ValueError: pass
+
+    try: 
+        config[index] = bool(config[index])
+        continue
+    except ValueError: pass
 
 def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")
@@ -47,7 +53,7 @@ driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
 file_name = open("./collected/ctt/UIDs and names.txt", "a", encoding="utf-8")
 
-for user_id in range(config["ctt_start_UID"], config["ctt_end_UID"]):
+for user_id in range(config["ctt_start_ID"], config["ctt_end_ID"]):
     # 1. Login and fetch table.
     login(user_id)
     table_sel(config["year"], config["semester"])

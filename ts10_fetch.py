@@ -13,9 +13,15 @@ from time import sleep
 
 config = dotenv_values(".env")
 for index in config:
-    if not config[index] in ["true", "false"]: config[index] = int(config[index])
-    elif config[index] == "true": config[index] = True
-    elif config[index] == "false": config[index] = False
+    try: 
+        config[index] = int(config[index])
+        continue
+    except ValueError: pass
+
+    try: 
+        config[index] = bool(config[index])
+        continue
+    except ValueError: pass
 def logger(success: bool, uid, name, status: int):
     if success: print(f"{Fore.LIGHTGREEN_EX}Success | {status} | {uid} | {name}.{Fore.WHITE}")
     else: print(f"{Fore.LIGHTRED_EX}Failed | {status} | {uid} | {name}.{Fore.WHITE}")

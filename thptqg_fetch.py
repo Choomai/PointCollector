@@ -23,8 +23,8 @@ for index in config:
     except ValueError: pass
 
 def logger(success: bool, uid, status: int):
-    if success: print(f"{Fore.LIGHTGREEN_EX}Success | {status} | {uid}.{Fore.WHITE}")
-    else: print(f"{Fore.LIGHTRED_EX}Failed | {status} | {uid}.{Fore.WHITE}")
+    if success: print(f"{Fore.LIGHTGREEN_EX}Success | {status} | {uid}{Fore.WHITE}")
+    else: print(f"{Fore.LIGHTRED_EX}Failed | {status} | {uid}{Fore.WHITE}")
 
 
 @backoff.on_exception (backoff.expo, requests.exceptions.Timeout, max_time=60)
@@ -38,11 +38,9 @@ headers = {
     'Accept-Language': 'vi-VN',
     'Connection': 'keep-alive',
     'Content-Type': 'application/json',
-    'Dnt': '1',
     'Host': 'tracuudiem.thitotnghiepthpt.edu.vn',
     'Origin': 'http://tracuudiem.thitotnghiepthpt.edu.vn',
     'Referer': 'http://tracuudiem.thitotnghiepthpt.edu.vn/index.html',
-    'Sec-Gpc': '1',
     # "User-Agent": f"python-requests/{requests.__version__} (PointCollector/1.3-beta; +https://fallback.choomai.xyz/bots/collector.txt)",
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82',
 }
@@ -70,6 +68,7 @@ for id in range(33002200, 33002201):
         img.paste(text_img, (0, 0), text_img)
         img.save("capcha.png")
         payload['strCapcha'] = pytesseract.image_to_string(img, config='-c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')[:5]
+        print(payload['strCapcha'], end=" | ")
 
         result_req = requests.request("POST", thptqg_result, headers=headers, data=payload)
         result = result_req.json()

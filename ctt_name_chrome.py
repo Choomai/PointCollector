@@ -8,8 +8,16 @@ from colorama import Fore
 from time import sleep
 
 config = dotenv_values(".env")
-for index in config: 
-    if not config[index] in ["true", "false"]: config[index] = int(config[index])
+for index in config:
+    try: 
+        config[index] = int(config[index])
+        continue
+    except ValueError: pass
+
+    try: 
+        config[index] = bool(config[index])
+        continue
+    except ValueError: pass
 
 def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")

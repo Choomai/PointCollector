@@ -28,7 +28,7 @@ chrome_options.add_argument("--disable-extension")
 chrome_options.add_argument("--disable-in-process-stack-traces")
 driver = webdriver.Chrome(options=chrome_options)
 driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
-file_name = open("./collected/UIDs and names.txt", "a", encoding="utf-8")
+file_name = open("./collected/ctt/UIDs and names.txt", "a", encoding="utf-8")
 
 for user_id in range(config["start_UIDs"], config["end_UIDs"]):
     login(user_id)

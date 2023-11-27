@@ -3,9 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import colorama
-from colorama import Fore
 from time import sleep
+from extension import logger
 
 config = dotenv_values(".env")
 for index in config:
@@ -27,7 +26,6 @@ def login(inp_uid):
     login_btn = driver.find_element(By.ID, "btnDangNhap")
     login_btn.send_keys(Keys.ENTER)
 def logout(): driver.find_element(By.ID, "LinkButton2").click()
-colorama.init()
 
 chrome_options = Options()
 chrome_options.add_argument("--disable-logging")
@@ -42,10 +40,12 @@ for user_id in range(config["start_UIDs"], config["end_UIDs"]):
     login(user_id)
     name = driver.find_element(By.XPATH,"//span[@id='lblTenTaiKhoan']/span").get_attribute('innerHTML')
     
-    if name is not None: 
+    if name:
         file_name.write(str(user_id) + " - " + name + "\n")
-        print(f"{Fore.LIGHTGREEN_EX}UID {user_id} with the name {name} has been saved.{Fore.WHITE}")
-    else: file_name.write(str(user_id) + " - null\n")
+        logger(True, user_id, name)
+    else:
+        file_name.write(str(user_id) + " - null\n")
+        logger(False, user_id, name)
     logout()
 file_name.close()
 sleep(10)

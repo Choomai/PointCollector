@@ -8,10 +8,9 @@ import minify_html
 import lxml
 import lxml.html.clean as clean
 import pandas as pd
-import colorama
 import sys
-from colorama import Fore
 from time import sleep
+from extension import logger
 
 config = dotenv_values(".env")
 for index in config:
@@ -39,11 +38,7 @@ def clean_attrib(html_str):
     cleaner = clean.Cleaner(safe_attrs_only=True, safe_attrs=frozenset({'colspan'})) # Keep 'colspan' safe.
     return cleaner.clean_html(html_str)
 def logout(): driver.find_element(By.ID, "LinkButton2").click()
-def logger(success: bool, uid, name):
-    if success: print(f"{Fore.LIGHTGREEN_EX}Success | {uid} | {name}.{Fore.WHITE}")
-    else: print(f"{Fore.LIGHTRED_EX}Failed | {uid} | {name}.{Fore.WHITE}")
 
-colorama.init()
 chrome_options = Options()
 chrome_options.add_argument("--disable-logging")
 chrome_options.add_argument("--log-level=3") 
@@ -88,7 +83,6 @@ for user_id in range(config["ctt_start_ID"], config["ctt_end_ID"]):
                 df = pd.read_html(str(table))
                 df_json = df[0].to_json(orient='records', force_ascii=False, indent=4)
                 file.write(df_json)
-                file.close()
                 logger(True, user_id, name)
     else: logger(True, user_id, name)
     logout()

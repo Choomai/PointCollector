@@ -28,8 +28,6 @@ Explanation:
 
 To save time, the UID range should be set from 3000350000 to 3000399999.
 
-**DO NOT** use `add_argument("--headless")`, otherwise it won't able to interact with Chrome.
-
 Check for missing UIDs: `python name_chrome.py`. It will check for any UIDs missing in `collected/ctt/UIDs and names.txt` and save them as an array string in `collected/ctt/missing.txt`.
 
 ## **ts10_fetch**

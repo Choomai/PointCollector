@@ -2,3 +2,6 @@
 !/collected/*/empty
 /.vscode/
 /cpp/
+
+__pycache__
+.venv

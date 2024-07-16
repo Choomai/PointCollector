@@ -2,6 +2,7 @@ minify-html
 selenium
 beautifulsoup4
 lxml
+lxml_html_clean
 colorama
 pandas
 python-dotenv

@@ -6,9 +6,9 @@ from minify_html import minify
 import json
 import colorama
 import backoff
-from extension import logger
+from extension import logger, read_env
 
-config = dotenv_values(".env")
+config = read_env()
 
 def clean_attrib(html_str: str):
     cleaner = Cleaner(safe_attrs_only=True, safe_attrs=frozenset({"class", "id"})) # Add the remove_empty_space parameter
@@ -19,7 +19,7 @@ def make_request(url: str, params):
     return response
 
 colorama.init()
-headers = {"User-Agent": f"python-requests/{requests.__version__} (PointCollector/{config["app_ver"]}; +https://fallback.choomai.lol/bots/collector.txt)"}
+headers = {"User-Agent": f"python-requests/{requests.__version__} (PointCollector/{config["app_ver"]}; +https://fallback.choomai.net/bots/collector.txt)"}
 ts10_url = "http://117.3.133.1:8080/tracuu/chitietthcs.html"
 
 for id in range(*map(int, (config["ts10_start_ID"], config["ts10_end_ID"]))):

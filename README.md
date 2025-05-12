@@ -1,6 +1,6 @@
 # Point Collector
 
-[Download the data](https://fallback.choomai.lol/universal/PointCollector/) fetched by me or in the **Releases** tab
+[Download the data](https://fallback.choomai.net/universal/PointCollector/) fetched by me or in the **Releases** tab
 
 #
 
@@ -9,7 +9,7 @@ First, **install** dependencies by running `pip install -r requirements.txt`
 
 ## **ctt_chrome**
 
-### Fetch at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.thuathienhue.edu.vn/)
+### Fetch at [Sở GD&DT TTH | Cổng thông tin đào tạo](https://qlttgddt.hue.gov.vn/)
 
 Modify `.env` accordingly to meet your requirements.
 
@@ -32,7 +32,7 @@ Check for missing UIDs: `python name_chrome.py`. It will check for any UIDs miss
 
 ## **ts10_fetch**
 
-### Fetch at [Tuyển sinh lớp 10](http://http://khaothi.thuathienhue.edu.vn:8080/)
+### Fetch at [Tuyển sinh lớp 10](http://khaothi.thuathienhue.edu.vn:8080/)
 
 Modify `.env` accordingly to meet your requirements.
 

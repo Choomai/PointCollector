@@ -9,7 +9,6 @@ import lxml
 import lxml.html.clean as clean
 import pandas as pd
 import sys
-from time import sleep
 from extension import logger
 
 config = dotenv_values(".env")
@@ -28,7 +27,7 @@ def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")
     uid.send_keys(inp_uid)
     passwd = driver.find_element(By.ID, "txtPass")
-    passwd.send_keys("cc") # [CONFIG] Anything will work...
+    passwd.send_keys("123") # Default pass
     login_btn = driver.find_element(By.ID, "btnDangNhap")
     login_btn.send_keys(Keys.ENTER)
 def table_sel(num, semester):
@@ -45,7 +44,7 @@ chrome_options.add_argument("--log-level=3")
 chrome_options.add_argument("--disable-extension")
 chrome_options.add_argument("--disable-in-process-stack-traces")
 driver = webdriver.Chrome(options=chrome_options)
-driver.get("https://qlttgddt.thuathienhue.edu.vn/home/dangnhap.aspx")
+driver.get("https://qlttgddt.hue.gov.vn/home/dangnhap.aspx")
 file_name = open("./collected/ctt/UIDs and names.txt", "a", encoding="utf-8")
 
 for user_id in range(config["ctt_start_ID"], config["ctt_end_ID"]):
@@ -87,4 +86,3 @@ for user_id in range(config["ctt_start_ID"], config["ctt_end_ID"]):
     else: logger(True, user_id, name)
     logout()
 file_name.close()
-sleep(10)

@@ -9,19 +9,9 @@ import lxml
 import lxml.html.clean as clean
 import pandas as pd
 import sys
-from extension import logger
+from extension import logger, read_env
 
-config = dotenv_values(".env")
-for index in config:
-    try: 
-        config[index] = int(config[index])
-        continue
-    except ValueError: pass
-
-    try: 
-        config[index] = bool(config[index])
-        continue
-    except ValueError: pass
+config = read_env()
 
 def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")

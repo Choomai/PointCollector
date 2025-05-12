@@ -1,6 +1,6 @@
 import re
-from dotenv import dotenv_values
-config = dotenv_values(".env")
+from extension import read_env
+config = read_env()
 for index in config:
     try: 
         config[index] = int(config[index])

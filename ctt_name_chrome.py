@@ -2,8 +2,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from extension import logger
+from extension import logger, read_env
 
+config = read_env()
 
 def login(inp_uid):
     uid = driver.find_element(By.ID, "txtUser")

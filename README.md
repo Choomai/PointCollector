@@ -44,9 +44,3 @@ Explanation:
 ### You can combine all JSON file using: `combine_json.py`
 
 This script supported 2 format, JSON and CSV. When typing the path, make sure it doesn't have any `/` at the end.
-
-# Disclaimer
-
-The PointCollector repo contains python scripts that fetch student point reports from websites. The author does not own or guarantee the data or the scripts.
-
-The use of these scripts is at your own risk. You should respect the websites and the laws when you crawl. The author is not liable for any damages or losses from these scripts.
